@@ -8,3 +8,5 @@ export * from "./lib/DomainCore/Events/Index";
 export * from "./lib/Messages/DomainPublisherEvent";
 export * from "./lib/Messages/DomainListenerEvent";
 
+export * from "./lib/Kafka/Index";
+

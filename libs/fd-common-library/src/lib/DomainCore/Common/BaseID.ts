@@ -1,3 +1,7 @@
 export abstract class BaseID<T> {
-  constructor(public readonly _id: T) { }
+  constructor(private readonly _id: T) { }
+
+  get id() {
+    return this._id;
+  }
 }

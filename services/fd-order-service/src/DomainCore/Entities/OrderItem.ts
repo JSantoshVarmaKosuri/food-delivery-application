@@ -5,7 +5,7 @@ import { Dish } from "./Dish";
 export class OrderItem extends BaseEntity<OrderItemID>{
   public readonly subTotal: Amount;
   constructor(
-    public readonly orderItemId: OrderItemID,
+    orderItemId: OrderItemID,
     public readonly orderId: OrderID,
     public readonly dish: Dish,
     public readonly quantity: number

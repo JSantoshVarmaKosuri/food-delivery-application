@@ -28,7 +28,7 @@ describe('Order Entity - Test Suite', () => {
   it('should create a instance of Order with nesseary types and values', () => {
     const actual: Order = new Order(orderId, customerId, restarentId, sampleAddress, sampleOrderItems);
 
-    expect(actual.orderId).toBeInstanceOf(OrderID);
+    expect(actual.id).toBeInstanceOf(OrderID);
     expect(actual.customerId).toBeInstanceOf(CustomerID);
     expect(actual.restarentId).toBeInstanceOf(RestarentID);
     expect(actual.price).toBeInstanceOf(Amount);

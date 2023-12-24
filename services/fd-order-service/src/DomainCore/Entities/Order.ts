@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 export class Order extends AggregateEntity<OrderID> {
   readonly price: Amount;
   constructor(
-    public readonly orderId: OrderID,
+    orderId: OrderID,
     public readonly customerId: CustomerID,
     public readonly restarentId: RestarentID,
     public readonly address: CustomerAddress,
@@ -20,7 +20,7 @@ export class Order extends AggregateEntity<OrderID> {
       this.price.addAmount(orderItem.dish.price.multiplyAmount(orderItem.quantity).bvalue);
     });
 
-    console.info(`Order with OrderID: ${this.orderId._id} is initilized with a price of ${this.price.value} for a CustomerID: ${this.customerId._id}`);
+    console.info(`Order with OrderID: ${this.id} is initilized with a price of ${this.price.value} for a CustomerID: ${this.customerId.id}`);
   }
 
   private validatePrice(): void {
@@ -30,7 +30,7 @@ export class Order extends AggregateEntity<OrderID> {
     });
 
     if (!total.isEqual(this.price.bvalue)) {
-      throw new Error(`Order with OrderID: ${this.orderId._id} is rejected with as price of ${this.price.value} does not match ${total.bvalue}`);
+      throw new Error(`Order with OrderID: ${this.id} is rejected with as price of ${this.price.value} does not match ${total.bvalue}`);
     }
   }
 

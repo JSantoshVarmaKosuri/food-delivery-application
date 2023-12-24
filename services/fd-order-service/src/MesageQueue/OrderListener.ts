@@ -1,10 +1,20 @@
-import { DomainEvent, DomainPublisherEvent } from "@food-delivery-application/fd-common-library";
-import { OrderApprovedEvent } from "../DomainCore/Events/OrderApprovedEvent";
+import { DomainListenerEvent } from "@food-delivery-application/fd-common-library";
 import { Order } from "../DomainCore/Entities/Order";
+import { Consumer } from "kafkajs";
 
-export class OrderListener extends DomainPublisherEvent<Order, DomainEvent<Order>> {
+export class OrderListener extends DomainListenerEvent<Order>{
+  async listen(consumer: Consumer, topics: string[], fromBeginning: boolean = true) {
+    await consumer.connect()
 
-  publish(event: OrderApprovedEvent) {
-    console.log(event);
+    topics.forEach(async (topic: string) => {
+      await consumer.subscribe({ topic: topic, fromBeginning: fromBeginning });
+    });
+
+    await consumer.run({
+      eachMessage: async ({ topic, message }) => {
+        const transmittedData = JSON.parse(message.value.toString());
+        if (transmittedData) console.info(`${topic} was recived from the queue.`);
+      },
+    })
   }
 }

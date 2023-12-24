@@ -9,3 +9,4 @@ export * from "./PaymentID";
 export * from "./RestarentAddress";
 export * from "./RestarentID";
 export * from "./TrackingID";
+export * from "./OrderStatus";

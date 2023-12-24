@@ -1,7 +1,7 @@
 import { BaseID } from "../Common/BaseID";
 
-export class RestarentID<T> extends BaseID<T> {
-  constructor(id: T) {
+export class RestarentID extends BaseID<string> {
+  constructor(id: string) {
     super(id);
   }
 }

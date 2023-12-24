@@ -1,0 +1,72 @@
+{
+  "name": "food-delivery-application",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/food-delivery-application/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/apps/food-delivery-application",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "apps/food-delivery-application/src/main.ts",
+        "tsConfig": "apps/food-delivery-application/tsconfig.app.json",
+        "assets": ["apps/food-delivery-application/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "generateLockfile": true,
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "food-delivery-application:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "food-delivery-application:build:development"
+        },
+        "production": {
+          "buildTarget": "food-delivery-application:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/food-delivery-application/jest.config.ts"
+      }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/food-delivery-application/Dockerfile . -t food-delivery-application"
+    }
+  },
+  "tags": []
+}

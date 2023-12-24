@@ -2,7 +2,11 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 node pre-commit-script.js
+
 npm install
+
+npx nx run fd-common-library:test
+
 npx nx run fd-order-service:lint
 npx nx run fd-order-service:test
 npx nx run fd-order-service-e2e:e2e

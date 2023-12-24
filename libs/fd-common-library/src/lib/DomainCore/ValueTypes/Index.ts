@@ -10,3 +10,4 @@ export * from "./RestarentAddress";
 export * from "./RestarentID";
 export * from "./TrackingID";
 export * from "./OrderStatus";
+export * from "./OrderTopics";

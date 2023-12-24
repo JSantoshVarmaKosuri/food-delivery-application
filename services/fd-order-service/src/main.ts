@@ -20,6 +20,7 @@ const orderListener = new OrderListener();
 orderListener.listen(listener, [OrderTopics.ORDER_CREATED_EVENT]);
 const orderPublisher = new OrderPublisher(producer);
 
+// propogate the producer so request can send messages to queue
 app.use((req: Request, res: Response, next: NextFunction) => {
   req["producer"] = orderPublisher
   next();

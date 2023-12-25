@@ -14,7 +14,7 @@ const port = process.env.PORT ? Number(process.env.PORT) : 3110;
 
 const app = express();
 
-const { producer, listener } = kafkaInit(['localhost:9092']);
+const { producer, listener } = kafkaInit(['localhost:9092'],'fd-order-service', 'fd-events-group');
 
 const orderListener = new OrderListener();
 orderListener.listen(listener, [OrderTopics.ORDER_CREATED_EVENT]);

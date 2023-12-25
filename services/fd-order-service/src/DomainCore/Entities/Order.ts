@@ -20,7 +20,7 @@ export class Order extends AggregateEntity<OrderID> {
       this.price.addAmount(orderItem.dish.price.multiplyAmount(orderItem.quantity).bvalue);
     });
 
-    console.info(`Order with OrderID: ${this.id} is initilized with a price of ${this.price.value} for a CustomerID: ${this.customerId.id}`);
+    console.info(`Order with OrderID: ${this.id.id} is initilized with a price of ${this.price.value} for a CustomerID: ${this.customerId.id}`);
   }
 
   private validatePrice(): void {

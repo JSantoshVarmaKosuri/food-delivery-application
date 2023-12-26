@@ -7,40 +7,42 @@ import { OrderCreatedEvent } from "../Events/OrderCreatedEvent";
 import { OrderPaidEvent } from "../Events/OrderPaidEvent";
 import { OrderRejectedEvent } from "../Events/OrderRejectedEvent";
 import { IOrderDomainService } from "./interfaces/IOrderDomainService";
+import { IOrderRepository } from "../../DataAccess/interfaces/IOrderRepository";
 
 export class OrderDomainService implements IOrderDomainService<Order> {
-  constructor() {
-  }
-  initilizeAnOrder(
+  constructor(private repository: IOrderRepository<Order>) {}
+
+  async initilizeAnOrder(
     orderId: OrderID,
     customerId: CustomerID,
     restarentId: RestarentID,
     customerAddress: CustomerAddress,
-    orderItems: OrderItem[]): Order {
-    return new Order(orderId, customerId, restarentId, customerAddress, orderItems);
+    orderItems: OrderItem[]): Promise<Order> {
+    return Promise.resolve(new Order(orderId, customerId, restarentId, customerAddress, orderItems));
   }
-  validateAndCreateOrder(order: Order): OrderCreatedEvent {
+  async validateAndCreateOrder(order: Order): Promise<OrderCreatedEvent> {
     order.createOrder();
-    return new OrderCreatedEvent(order, OrderTopics.ORDER_CREATED_EVENT);
+    await this.repository.save(order);
+    return Promise.resolve(new OrderCreatedEvent(order, OrderTopics.ORDER_CREATED_EVENT));
   }
-  payCurrentOrder(order: Order, paymentId: PaymentID): OrderPaidEvent {
+  async payCurrentOrder(order: Order, paymentId: PaymentID): Promise<OrderPaidEvent> {
     order.payOrder(paymentId);
-    return new OrderPaidEvent(order, OrderTopics.ORDER_PAID_EVENT);
+    return Promise.resolve(new OrderPaidEvent(order, OrderTopics.ORDER_PAID_EVENT));
   }
-  approveCurrentOrder(order: Order): OrderApprovedEvent {
+  async approveCurrentOrder(order: Order): Promise<OrderApprovedEvent> {
     order.approveOrder();
-    return new OrderPaidEvent(order, OrderTopics.ORDER_APPROVED_EVENT);
+    return Promise.resolve(new OrderPaidEvent(order, OrderTopics.ORDER_APPROVED_EVENT));
   }
-  rejectCurrentOrder(order: Order): OrderRejectedEvent {
+  async rejectCurrentOrder(order: Order): Promise<OrderRejectedEvent> {
     order.rejectOrder();
-    return new OrderPaidEvent(order, OrderTopics.ORDER_REJECTED_EVENT);
+    return Promise.resolve(new OrderPaidEvent(order, OrderTopics.ORDER_REJECTED_EVENT));
   }
-  cancelCurrentOrder(order: Order): OrderCanceledEvent {
+  async cancelCurrentOrder(order: Order): Promise<OrderCanceledEvent> {
     order.cancelOrder();
-    return new OrderPaidEvent(order, OrderTopics.ORDER_CANCLED_EVENT);
+    return Promise.resolve(new OrderPaidEvent(order, OrderTopics.ORDER_CANCLED_EVENT));
   }
 
-  getTracking(order: Order): TrackingID | undefined {
-    return order.trackingId;
+  async getTracking(order: Order): Promise<TrackingID | undefined> {
+    return Promise.resolve(order.trackingId);
   }
 }

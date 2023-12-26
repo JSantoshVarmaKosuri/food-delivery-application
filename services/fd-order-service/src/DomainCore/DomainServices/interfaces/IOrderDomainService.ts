@@ -13,11 +13,11 @@ export interface IOrderDomainService<T> {
     restarentId: RestarentID,
     customerAddress: CustomerAddress,
     orderItems: OrderItem[]
-  ): T;
-  validateAndCreateOrder(order: T): OrderCreatedEvent;
-  payCurrentOrder(order: T, paymentId: PaymentID): OrderPaidEvent;
-  approveCurrentOrder(order: T): OrderApprovedEvent;
-  rejectCurrentOrder(order: T): OrderRejectedEvent;
-  cancelCurrentOrder(order: T): OrderCanceledEvent;
-  getTracking(order: T): TrackingID | undefined
+  ): Promise<T>;
+  validateAndCreateOrder(order: T): Promise<OrderCreatedEvent>;
+  payCurrentOrder(order: T, paymentId: PaymentID): Promise<OrderPaidEvent>;
+  approveCurrentOrder(order: T): Promise<OrderApprovedEvent>;
+  rejectCurrentOrder(order: T): Promise<OrderRejectedEvent>;
+  cancelCurrentOrder(order: T): Promise<OrderCanceledEvent>;
+  getTracking(order: T): Promise<TrackingID | undefined>
 }
